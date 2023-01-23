@@ -3,16 +3,10 @@ namespace Tests;
 using System.Numerics;
 using UTest_NUnit;
 
-public class Tests
+public class UnitTestsSumator
 {
-
-    [SetUp]
-    public void Setup()
-    {
-    }
-
     [Test]
-    public void TestSumWithValidData()
+    public void TestSumWithPositiveNumbersData()
     {
         var actual = Sumator.Sum(new int[] { 5, 6 });
         BigInteger expected = 11;
@@ -38,7 +32,7 @@ public class Tests
     }
 
     [Test]
-    public void TestSumWithbigNumbers()
+    public void TestSumWithBigNumbers()
     {
         var actual = Sumator.Sum(new int[] { 2000000000, 2000000000 });
         BigInteger expected = 4000000000;
@@ -47,7 +41,7 @@ public class Tests
     }
 
     [Test]
-    public void TestSumWithPositiveNegativeNumbers()
+    public void TestSumWithPositiveAndNegativeNumbers()
     {
         var actual = Sumator.Sum(new int[] { 200, 100, -300, 1 });
         BigInteger expected = 1;
@@ -56,7 +50,7 @@ public class Tests
     }
 
     [Test]
-    public void TestAverageValidNumbers()
+    public void TestAverageWithPositiveNumbers()
     {
         var actual = Sumator.Average(new int[] { 200, 100 });
         var expected = 150;
@@ -74,7 +68,7 @@ public class Tests
     }
 
     [Test]
-    public void TestAverageEmptyArrThrows()
+    public void TestAverageWithEmptyArrayThrows()
     {
         var actual = () => Sumator.Average(Array.Empty<int>());
 
@@ -82,7 +76,7 @@ public class Tests
     }
 
     [Test]
-    public void TestAverageOneElementArray()
+    public void TestAverageWithOneElementArray()
     {
         var actual = Sumator.Average(new int[] { 10 });
         var expected = 10;
@@ -91,7 +85,7 @@ public class Tests
     }
 
     [Test]
-    public void TestAverageNegativeNumbers()
+    public void TestAverageWithNegativeNumbers()
     {
         var actual = Sumator.Average(new int[] { -10, -20, -30 });
         var expected = -20;
@@ -100,7 +94,7 @@ public class Tests
     }
 
     [Test]
-    public void TestAverageNegativeAnPositiveNumbers()
+    public void TestAverageWithNegativeAndPositiveNumbers()
     {
         var actual = Sumator.Average(new int[] { -10, -20, 20, 50 });
         var expected = 10;
@@ -109,7 +103,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMinimumValidData()
+    public void TestMinimumWithValidArray()
     {
         var actual = Sumator.MinimumValue(new int[] { 3, 5, -100, 99 });
         var expected = -100;
@@ -118,7 +112,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMinimumEmptyData()
+    public void TestMinimumWithEmptyArrayThrows()
     {
         var actual = () => Sumator.MinimumValue(Array.Empty<int>());
 
@@ -126,7 +120,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMinimumNullData()
+    public void TestMinimumWithNullForArrayThrows()
     {
         var actual = () => Sumator.MinimumValue(null);
 
@@ -134,7 +128,7 @@ public class Tests
     }
 
     [Test]
-    public void TestMinimumSimilarData()
+    public void TestMinimumWithSimilarData()
     {
         var actual = Sumator.MinimumValue(new int[] { 5, 5, 5, });
         var expected = 5;

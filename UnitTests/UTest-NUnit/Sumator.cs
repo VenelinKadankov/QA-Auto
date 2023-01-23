@@ -31,10 +31,11 @@ public class Sumator
     public static int MinimumValue(int[] arr)
     {
         var result = int.MaxValue;
+        var errorMessage = "Can not find minimum of an empty array!";
 
         if (arr == null || arr.Length == 0)
         {
-            throw new ArgumentNullException("Can not find minimum of an empty array!");
+            throw new ArgumentNullException(errorMessage);
         }
 
         foreach (var num in arr)
