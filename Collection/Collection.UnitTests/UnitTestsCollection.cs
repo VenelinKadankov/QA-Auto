@@ -95,4 +95,33 @@ public class UnitTestsCollection
             Assert.That(_stringCollection.Capacity, Is.EqualTo(16));
         });
     }
+
+    [Test]
+    public void Test_Collection_IndexGetter()
+    {
+        _intCollection.AddRange(1, 2);
+        _stringCollection.AddRange("1", "2");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection[1], Is.EqualTo(2));
+            Assert.That(_stringCollection[0], Is.EqualTo("1"));
+        });
+    }
+
+    [Test]
+    public void Test_Collection_IndexSetter()
+    {
+        _intCollection.AddRange(1, 2);
+        _stringCollection.AddRange("1", "2");
+
+        _intCollection[1] = 66;
+        _stringCollection[0] = "newString";
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection[1], Is.EqualTo(66));
+            Assert.That(_stringCollection[0], Is.EqualTo("newString"));
+        });
+    }
 }
