@@ -124,4 +124,49 @@ public class UnitTestsCollection
             Assert.That(_stringCollection[0], Is.EqualTo("newString"));
         });
     }
+
+    [Test]
+    public void Test_Collection_InsertAtIndex()
+    {
+        _intCollection.AddRange(1, 2);
+        _stringCollection.AddRange("1", "2");
+
+        _intCollection.InsertAt(1, 66);
+        _stringCollection.InsertAt(0, "newString");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection[1], Is.EqualTo(66));
+            Assert.That(_stringCollection[0], Is.EqualTo("newString"));
+        });
+    }
+
+    [Test]
+    public void Test_Collection_CheckExchangeWhenParamInRange()
+    {
+        _intCollection.AddRange(1, 2, 5, 10);
+        _stringCollection.AddRange("1", "2", "5", "10");
+
+        _intCollection.Exchange(1, 3);
+        _stringCollection.Exchange(1, 3);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection[1], Is.EqualTo(10));
+            Assert.That(_stringCollection[3], Is.EqualTo("2"));
+        });
+    }
+
+    [Test]
+    public void Test_Collection_CheckExchangeThrowsWhenParamOutOfRange()
+    {
+        _intCollection.AddRange(1, 2, 5, 10);
+        _stringCollection.AddRange("1", "2", "5", "10");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(() => _intCollection.Exchange(1, 5), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => _stringCollection.Exchange(-1, 3), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        });
+    }
 }
