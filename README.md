@@ -1,2 +1,2 @@
 # QA-Auto
-QA Automation course problems
+QA Automation course problems.
