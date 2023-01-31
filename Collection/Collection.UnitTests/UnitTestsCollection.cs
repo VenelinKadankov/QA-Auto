@@ -10,6 +10,9 @@ public class UnitTestsCollection
     {
         _intCollection = new Collection<int>();
         _stringCollection = new Collection<string>();
+
+        _intCollection.AddRange(1, 2, 5, 10);
+        _stringCollection.AddRange("1", "2", "5", "10");
     }
 
     [Test]
@@ -30,8 +33,8 @@ public class UnitTestsCollection
     {
         Assert.Multiple(() =>
         {
-            Assert.That(_intCollection, Is.Empty);
-            Assert.That(_stringCollection, Is.Empty);
+            Assert.That(_intCollection.Count, Is.EqualTo(4));
+            Assert.That(_stringCollection.Count, Is.EqualTo(4));
         });
     }
 
@@ -53,10 +56,8 @@ public class UnitTestsCollection
 
         Assert.Multiple(() =>
         {
-            Assert.That(_intCollection.Count, Is.EqualTo(1));
-            Assert.That(_stringCollection.Count, Is.EqualTo(1));
-            Assert.That(_intCollection.Capacity, Is.EqualTo(16));
-            Assert.That(_stringCollection.Capacity, Is.EqualTo(16));
+            Assert.That(_intCollection.Count, Is.EqualTo(5));
+            Assert.That(_stringCollection.Count, Is.EqualTo(5));
         });
     }
 
@@ -69,13 +70,10 @@ public class UnitTestsCollection
             _stringCollection.Add($"{i}");
         }
 
-        _intCollection.Add(1);
-        _stringCollection.Add("1");
-
         Assert.Multiple(() =>
         {
-            Assert.That(_intCollection.Count, Is.EqualTo(17));
-            Assert.That(_stringCollection.Count, Is.EqualTo(17));
+            Assert.That(_intCollection.Count, Is.EqualTo(20));
+            Assert.That(_stringCollection.Count, Is.EqualTo(20));
             Assert.That(_intCollection.Capacity, Is.EqualTo(32));
             Assert.That(_stringCollection.Capacity, Is.EqualTo(32));
         });
@@ -89,19 +87,14 @@ public class UnitTestsCollection
 
         Assert.Multiple(() =>
         {
-            Assert.That(_intCollection.Count, Is.EqualTo(2));
-            Assert.That(_stringCollection.Count, Is.EqualTo(2));
-            Assert.That(_intCollection.Capacity, Is.EqualTo(16));
-            Assert.That(_stringCollection.Capacity, Is.EqualTo(16));
+            Assert.That(_intCollection.Count, Is.EqualTo(6));
+            Assert.That(_stringCollection.Count, Is.EqualTo(6));
         });
     }
 
     [Test]
     public void Test_Collection_IndexGetter()
     {
-        _intCollection.AddRange(1, 2);
-        _stringCollection.AddRange("1", "2");
-
         Assert.Multiple(() =>
         {
             Assert.That(_intCollection[1], Is.EqualTo(2));
@@ -112,9 +105,6 @@ public class UnitTestsCollection
     [Test]
     public void Test_Collection_IndexSetter()
     {
-        _intCollection.AddRange(1, 2);
-        _stringCollection.AddRange("1", "2");
-
         _intCollection[1] = 66;
         _stringCollection[0] = "newString";
 
@@ -128,9 +118,6 @@ public class UnitTestsCollection
     [Test]
     public void Test_Collection_InsertAtIndex()
     {
-        _intCollection.AddRange(1, 2);
-        _stringCollection.AddRange("1", "2");
-
         _intCollection.InsertAt(1, 66);
         _stringCollection.InsertAt(0, "newString");
 
@@ -144,9 +131,6 @@ public class UnitTestsCollection
     [Test]
     public void Test_Collection_CheckExchangeWhenParamInRange()
     {
-        _intCollection.AddRange(1, 2, 5, 10);
-        _stringCollection.AddRange("1", "2", "5", "10");
-
         _intCollection.Exchange(1, 3);
         _stringCollection.Exchange(1, 3);
 
@@ -160,13 +144,56 @@ public class UnitTestsCollection
     [Test]
     public void Test_Collection_CheckExchangeThrowsWhenParamOutOfRange()
     {
-        _intCollection.AddRange(1, 2, 5, 10);
-        _stringCollection.AddRange("1", "2", "5", "10");
-
         Assert.Multiple(() =>
         {
             Assert.That(() => _intCollection.Exchange(1, 5), Throws.InstanceOf<ArgumentOutOfRangeException>());
             Assert.That(() => _stringCollection.Exchange(-1, 3), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        });
+    }
+
+    [Test]
+    public void Test_Collection_CheckRemoveAtThrowsWhenParamOutOfRange()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(() => _intCollection.Exchange(1, 5), Throws.InstanceOf<ArgumentOutOfRangeException>());
+            Assert.That(() => _stringCollection.Exchange(-1, 3), Throws.InstanceOf<ArgumentOutOfRangeException>());
+        });
+    }
+
+    [Test]
+    public void Test_Collection_CheckRemoveAtParamInRange()
+    {
+        _intCollection.RemoveAt(0);
+        _stringCollection.RemoveAt(1);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection.Count, Is.EqualTo(3));
+            Assert.That(_stringCollection.Count, Is.EqualTo(3));
+        });
+    }
+
+    [Test]
+    public void Test_Collection_Clear()
+    {
+        _intCollection.Clear();
+        _stringCollection.Clear();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection.Count, Is.EqualTo(0));
+            Assert.That(_stringCollection.Count, Is.EqualTo(0));
+        });
+    }
+
+    [Test]
+    public void Test_Collection_ToString()
+    {
+        Assert.Multiple(() =>
+        {
+            Assert.That(() => _intCollection.ToString(), Is.EqualTo("[1, 2, 5, 10]"));
+            Assert.That(() => _stringCollection.ToString(), Is.EqualTo("[1, 2, 5, 10]"));
         });
     }
 }
