@@ -80,4 +80,19 @@ public class UnitTestsCollection
             Assert.That(_stringCollection.Capacity, Is.EqualTo(32));
         });
     }
+
+    [Test]
+    public void Test_Collection_AddRangeBeforeReachingLimit()
+    {
+        _intCollection.AddRange(1, 2);
+        _stringCollection.AddRange("1", "2");
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(_intCollection.Count, Is.EqualTo(2));
+            Assert.That(_stringCollection.Count, Is.EqualTo(2));
+            Assert.That(_intCollection.Capacity, Is.EqualTo(16));
+            Assert.That(_stringCollection.Capacity, Is.EqualTo(16));
+        });
+    }
 }
