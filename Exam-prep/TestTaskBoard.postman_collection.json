@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "ae2b17cd-77af-4998-96bf-1cad68d2be43",
+		"name": "TestTaskBoard",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16007651"
+	},
+	"item": [
+		{
+			"name": "Boards",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Test_ListAllEndpoints",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response contains json\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"\tconst respBody = pm.response.json();\r",
+											"\tpm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');\r",
+											"\tpm.expect(typeof(respBody)).to.be.equal(\"object\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://taskboardjs.venelinkadankov.repl.co/api/boards",
+									"protocol": "https",
+									"host": [
+										"taskboardjs",
+										"venelinkadankov",
+										"repl",
+										"co"
+									],
+									"path": [
+										"api",
+										"boards"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Test_AllTeasksWithDone",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"All tasks are from board Done\", function () {\r",
+											"    pm.response.to.be.json;\r",
+											"\tconst respBody = pm.response.json();\r",
+											"\t\r",
+											"    for(let i = 0; i < respBody.length; i++){\r",
+											"        let task = respBody[i];\r",
+											"        pm.expect(task.board.name, \"Board name property\").to.be.equal(\"Done\");\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://taskboardjs.venelinkadankov.repl.co/api/tasks/board/Done",
+									"protocol": "https",
+									"host": [
+										"taskboardjs",
+										"venelinkadankov",
+										"repl",
+										"co"
+									],
+									"path": [
+										"api",
+										"tasks",
+										"board",
+										"Done"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "Test_CreateTaskReturnsIn201202",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful POST task request\", () => {\r",
+											"    let id = pm.response.json().task.id;\r",
+											"    pm.environment.set(\"taskId\", id);\r",
+											"  pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"Venjo Tests 6\",\r\n    \"description\": \"API practice tests\",\r\n    \"board\": \"Open\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://taskboardjs.venelinkadankov.repl.co/api/tasks",
+									"protocol": "https",
+									"host": [
+										"taskboardjs",
+										"venelinkadankov",
+										"repl",
+										"co"
+									],
+									"path": [
+										"api",
+										"tasks"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "Test_EditTask",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Successful edit task request\", () => {\r",
+											"    let name = pm.response.json().task.title;\r",
+											"  pm.expect(name).to.be.equal(\"changed title\");\r",
+											"  pm.expect(name).to.be.not.null;\r",
+											"  pm.expect(typeof(name), \"Type of the response property name\").to.be.equal(\"string\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"changed title\",\r\n    \"board\": \"Done\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://taskboardjs.venelinkadankov.repl.co/api/tasks/{{taskId}}",
+									"protocol": "https",
+									"host": [
+										"taskboardjs",
+										"venelinkadankov",
+										"repl",
+										"co"
+									],
+									"path": [
+										"api",
+										"tasks",
+										"{{taskId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "Test_DeleteTask",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Delete task request\", () => {\r",
+											"    let respBody = pm.response.json();\r",
+											"  pm.expect(respBody.msg).to.be.equal(\"Task deleted: \" + pm.environment.get(\"taskId\"));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://taskboardjs.venelinkadankov.repl.co/api/tasks/{{taskId}}",
+									"protocol": "https",
+									"host": [
+										"taskboardjs",
+										"venelinkadankov",
+										"repl",
+										"co"
+									],
+									"path": [
+										"api",
+										"tasks",
+										"{{taskId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
